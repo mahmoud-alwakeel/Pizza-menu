@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./index.css";
 
 const pizzaData = [
   {
@@ -46,26 +47,63 @@ const pizzaData = [
   },
 ];
 
-function Pizza() {
+function Header() {
+  const style = {};
+  return (
+    <header className="header">
+      <h1 style = {style}>Fast React Pizza Co.</h1>
+    </header>
+  );
+}
+function Menu() {
     return (
-        <div>
-            <img src="pizzas/prosciutto.jpg" alt="Pizza Prosciutto" />
-            <h2>Pizza Prosciutto</h2>
-            <p>Tomato, mozarella, ham, aragula, and burrata cheese</p>
-        </div>
+        <main className="menu">
+            <h2>Our Menu</h2>
+            <Pizza />
+            <Pizza />
+            <Pizza />
+        </main>
     );
+}
+function Footer() {
+  const hour = new Date().getHours();
+  const openHour = 12;
+  const closeHour = 22;
+
+  const isOpen = hour >= openHour && hour <= closeHour
+  console.log(isOpen);
+
+  return (
+    <footer className="footer">
+      {new Date().toLocaleTimeString()} We're currently open until 22:00. Come
+      visit us or order online
+    </footer>
+  );
+}
+
+function Pizza() {
+  return (
+    <div>
+      <img src="pizzas/prosciutto.jpg" alt="Pizza Prosciutto" />
+      <h3>Pizza Prosciutto</h3>
+      <p>Tomato, mozarella, ham, aragula, and burrata cheese</p>
+    </div>
+  );
 }
 
 function App() {
-  return <div>
-    <h1>Hello, World!</h1>
-    <Pizza />
-  </div>;
+  return (
+    <div>
+      <Header />
+      <Menu />
+      <Footer />
+    </div>
+  );
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
