@@ -51,42 +51,91 @@ function Header() {
   const style = {};
   return (
     <header className="header">
-      <h1 style = {style}>Fast React Pizza Co.</h1>
+      <h1 style={style}>Fast React Pizza Co.</h1>
     </header>
   );
 }
 function Menu() {
-    return (
-        <main className="menu">
-            <h2>Our Menu</h2>
-            <Pizza />
-            <Pizza />
-            <Pizza />
-        </main>
-    );
+  const pizzas = pizzaData;
+  // const pizzas = [];
+  const pizzaCount = pizzas.length;
+
+  return (
+    <main className="menu">
+      <h2>Our Menu</h2>
+      {pizzaCount > 0 ? (
+        <>
+          <p>
+            Authentic Italian Cuisine, 6 creative dishes, choose froma. All from
+            out stone oven
+          </p>
+          <ul className="pizzas">
+            {pizzaData.map((pizza) => (
+              // <Pizza name={pizza.name}  image={pizza.photoName} price={pizza.price} ingredients={pizza.ingredients}/>
+              <Pizza pizzaObject={pizza} alt={pizza.name} />
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>We're still working on our menu. Please come back later :)</p>
+      )}
+      {/*
+      <Pizza
+        name="Pizza Prosciutto"
+        ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
+        image="pizzas/prosciutto.jpg"
+        price={280}
+      />
+      <Pizza
+        name="Pizza Prosciutto"
+        ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
+        image="pizzas/prosciutto.jpg"
+        price={280}
+      />
+      */}
+    </main>
+  );
 }
+
+function Pizza({ pizzaObject }) {
+  // if (pizzaObject.soldOut) return null;
+
+  return (
+    <li className={`pizza ${pizzaObject.soldOut ? 'sold-out' : ''}`}>
+      <img src={pizzaObject.photoName} alt={pizzaObject.name} />
+      <h3>{pizzaObject.name}</h3>
+      <p>{pizzaObject.ingredients}</p>
+      <span>{pizzaObject.soldOut ? 'Sold Out' : pizzaObject.price + 10 + ' Egp'} </span>
+    </li>
+  );
+}
+
 function Footer() {
   const hour = new Date().getHours();
   const openHour = 12;
   const closeHour = 22;
 
-  const isOpen = hour >= openHour && hour <= closeHour
-  console.log(isOpen);
+  const isOpen = hour >= openHour && hour <= closeHour;
+  // console.log(isOpen);
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()} We're currently open until 22:00. Come
-      visit us or order online
+      {isOpen ? (
+        <Order closeHour={closeHour} />
+      ) : (
+        <p>
+          We're happy to welcome you between {openHour}:00 and {closeHour}:00
+        </p>
+      )}
     </footer>
   );
 }
 
-function Pizza() {
+function Order({ closeHour }) {
   return (
-    <div>
-      <img src="pizzas/prosciutto.jpg" alt="Pizza Prosciutto" />
-      <h3>Pizza Prosciutto</h3>
-      <p>Tomato, mozarella, ham, aragula, and burrata cheese</p>
+    <div className="order">
+      <p>We are open until {closeHour}:00. Come visit us or order online.</p>
+      <button className="btn">Order</button>
     </div>
   );
 }
